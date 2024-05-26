@@ -5,6 +5,8 @@ import base64
 from dotenv import load_dotenv
 import json
 
+import face_recognizer
+
 load_dotenv()
 
 class MyRequestHandler(BaseHTTPRequestHandler):
@@ -15,8 +17,13 @@ class MyRequestHandler(BaseHTTPRequestHandler):
             post_data = self.rfile.read(content_length).decode('utf-8')
             nparr = np.fromstring(base64.b64decode(post_data), np.uint8)
             img = cv2.imdecode(nparr, cv2.IMREAD_GRAYSCALE)
-            userId = 1
-            data = {'userId': userId}
+
+            # userId = 1
+            # returns authorization status (True|False) and label if authorized (String|None)
+            is_authorized, label = face_recognizer.face_id_recognizer(img)
+            print(is_authorized, label)
+
+            data = {'userId': label}
             self.send_response(200)
             self.send_header('Content-type', 'application/json')
             self.send_header('Access-Control-Allow-Origin', '*')
