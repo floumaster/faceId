@@ -84,13 +84,10 @@ def face_id_recognizer(image_path):
 
 
 if __name__ == "__main__":
-    # Path to the test image
-    test_image_path = 'images/test1.jpg'  # Replace with the path to your test image
+    test_image_path = 'images/test1.jpg'
 
-    # Run the face_id_recognizer function
     authorized, label = face_id_recognizer(test_image_path)
 
-    # Print the result
     if authorized:
         print("Authorized: ", label)
     else:
